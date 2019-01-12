@@ -1,0 +1,90 @@
+There are multiple ways to run this program  below are the options
+
+1) from IDE run Main.java
+2) Command line java -jar githubissues.jar -option
+3) Docker locally
+4) Docker from DOcker hub
+5) Kubernetes
+
+
+Below are detailed instructions on how to run this program using each method
+
+From IDE .
+
+This is pretty straightforward
+1.1) Build Project
+1.2) Edit Configuration   example (        -i  ( input array string  -i   octocat/Hello-World att/AAF att/AAF-EDGE )
+ or         -e  (if you don't feel typing too much)
+ or         -f ( you have your own file with below format or the format similar to repos.txt under resources)
+
+ Example file format
+ octocat/Hello-World
+ att/AAF
+ att/AAF-EDGE
+ att/AJSC
+
+use following options below
+options -e  ( no option uses default file
+        -i  ( input array string  -i   octocat/Hello-World att/AAF att/AAF-EDGE )
+        -f  ( docker run githubissues -f <filename> )
+        -o ( optional output file)
+
+
+2) Command line using jar file
+
+using IDE build an artifact githubissues.jar
+jar should be created in home directory of this project /original-intellij
+
+2.2) Switch into directory
+cd /original-intellij
+
+2.3) Run the command to run jar file
+
+java -jar githubissues.jar -options
+example
+
+java -jar githubissues.jar -i att/AAF att/AAF-EDGE
+or
+java -jar githubissues.jar -f filename
+or
+java -jar githubissues.har -e
+
+
+3) Using Docker Image
+
+Build Docker image
+
+and cd /original-intellij
+docker build -t githubissues .
+
+
+Using Docker Locally
+
+
+docker run githubissues  -option // gives you options to run the issues.
+
+
+options -e  ( no option uses default file
+        -i  ( input array string  example docker run githubissues -i   octocat/Hello-World att/AAF att/AAF-EDGE )
+        -f  ( docker run githubissues -f <filename> )
+        -o ( optional output file)
+docker run githubissues -e       // uses internal sample file
+
+The option below lets you provide Array of strings for processing
+
+docker run githubissues -i   octocat/Hello-World att/AAF att/AAF-EDGE
+
+docker run githubissues -f <filename>
+
+
+4) Using images From Docker Hub
+
+docker run -p 8080:8080 --name githubissues -e NAME="Docker Hub" githubissues yogi4/githubissues:1.0.0   -option
+
+options -e  ( no option uses default file
+        -i  ( input array string  example docker run githubissues -i   octocat/Hello-World att/AAF att/AAF-EDGE )
+        -f  ( docker run githubissues -f <filename> )
+        -o ( optional output file)
+
+5) For the purpose of scaling created a kube-config.yml which uses docker images and scaling factor and replication
+kubectl create -f kubeconfig.yml

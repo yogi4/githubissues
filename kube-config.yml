@@ -1,0 +1,45 @@
+appVersion: app/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: app-namespace
+spec:
+  selector:
+    matchLabels:
+      run: app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: api
+    spec:
+      containers:
+        - name: githubissues
+          image: yogi4/githubissues:1.0.0
+          ports:
+            - containerPort: 8080
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+    imagePullSecrets:
+      - name: regcred
+---
+appVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: app-namespace
+  labels:
+    run: app-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30250
+  selector:
+    run: app
